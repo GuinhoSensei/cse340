@@ -4,3 +4,451 @@
 *:after {
   box-sizing: border-box;
 }
+
+/*******header*******/
+header {
+  background-color: white;
+  color: black;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+.siteName {
+  font-size: 1.6em;
+  white-space: nowrap;
+  justify-items: left;
+}
+
+header a {
+  color: black;
+  text-decoration: none;
+}
+
+/*******nav*******/
+.nav {
+  background-color: black;
+  color: white;
+  padding: 1px;
+  padding-right: 10px;
+}
+nav ul {
+  border:solid 15px black ;
+  background-color: black;
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+/*******footer*******/
+footer {
+  background-color: white;
+  color: black;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.errorLink {
+  padding: 10px;
+}
+
+.copyright {
+  padding: 10px;
+  white-space: nowrap;
+}
+
+/*******body*******/
+body {
+  background-color: white;
+  background-image: url("/images/site/checkerboard.jpg");
+  background-repeat: repeat;
+}
+
+#wrapper {
+  padding: 5px;
+  margin-left: 15px;
+  margin-right: 15px;
+  border-style: solid;
+  border-width: 1px;
+  background-color: cyan;
+}
+
+.main_content {
+  background-color: white;  
+  display: flex;
+  align-items: flex-start;
+}
+
+.Welcome {
+  white-space: nowrap;
+  padding: 15px;
+  align-items: right;
+}
+#btn-1 {
+ background-color: cyan;
+ color: black;
+}
+.DMC {
+  height: 100px;
+  width: 200px;
+  color: cyan;
+  font-weight: bold;
+  background-color:rgba(255,255,255,.8);
+  box-shadow: 5px 5px 10px #dfe0dd;
+  align-self: flex-end;
+}
+.delorean_image {
+  max-width: 370px;
+  height: auto;
+}
+
+/*******review*******/
+.review {
+  height: auto;
+  max-width: 450px;
+  background-color: white;
+  color: black;
+  padding: 15px;
+  display: inline-block;
+  text-align: center;
+}
+.review_title {
+  white-space: nowrap;
+}
+.review ul {
+  list-style-type: none;
+}
+.review ul li {
+  padding: 10px;
+}
+
+/*******upgrades*******/
+.upgrades {
+  height: auto;
+  max-width: 450px;
+  padding: 15px;
+  display: flex;
+  text-align: center;
+  flex-wrap: wrap;
+
+}
+.upgrades_options {
+  display: flex;
+  align-items: end;
+}
+
+.upgrade_title {
+  white-space: nowrap;
+  padding-left: 5px;
+}
+
+.flux {
+  height: 100px;
+  background-color: #00aeffc4;
+  border: 1px solid #00aeff;
+  transition: transform .5s;
+  box-shadow: 5px 5px 10px #a3b18a;
+  padding: 5px;
+}
+
+.flame {
+  height: 100px;
+  background-color: #00aeffc4;
+  border: 1px solid #00aeff;
+  transition: transform .5s;
+  box-shadow: 5px 5px 10px #a3b18a;
+  padding: 5px;
+}
+
+.bumper {
+  height: 100px;
+  background-color: #00aeffc4;
+  border: 1px solid #00aeff;
+  transition: transform .5s;
+  box-shadow: 5px 5px 10px #a3b18a;
+  padding: 5px;
+
+}
+
+.hub {
+  height: 100px;
+  background-color: #00aeffc4;
+  border: 1px solid #00aeff;
+  transition: transform .5s;
+  box-shadow: 5px 5px 10px #a3b18a;
+  padding: 5px;
+  
+}
+
+a {
+  white-space: nowrap;
+}
+
+.errorTitle {
+  font-size: 2em;
+  text-align: center;
+  background-color: white;
+  padding: 30px;
+  padding-bottom: 450px;
+  margin: 0px;
+
+}
+
+.vehicle {
+  list-style-type: none;
+  background-color: white;
+  text-align: center;
+}
+.vehicle_title {
+  background-color: white;
+  padding: 20px;
+  margin: 0px;
+}
+.vehicle ul {
+  margin: 0px;
+}
+.vehicle li {
+  list-style-type: none;
+  width: 270px;
+  height: 230px;
+  background-color: white;
+  margin: 15px;
+  display: inline-block;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  text-align: center;
+}
+.vehicle li hr {
+  border-color: black;
+  border-width: 2px;
+}
+.vehicle li h2 {
+  font-size: .9em;
+}
+.vehicle li img {
+  white-space: wrap;
+  height: 115px;
+}
+
+
+
+.detail_page {
+  display: inline-block;
+  text-align: left;
+}
+.detail_view {
+  background-color: white;
+  padding: 0px;
+  margin: 0px;
+  grid-column: 1;
+  grid-row: 1;
+}
+.detail_view img {
+  width: 350px;
+}
+.detail_data {
+  background-color: white;
+  width: 340px;
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.bold1 {
+  font-weight: bold;
+}
+
+.login-page {
+  background-color: white;
+  margin: 0px;
+  padding: 10px;
+  height: 650px;
+  text-align: center;
+}
+
+.login {
+  display: inline-block;
+  background-color:rgb(12, 138, 201);
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+}
+form {
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  padding: 15px;
+  text-align: left;
+}
+form label {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+form p {
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 10px;
+}
+form button {
+  padding: 4px;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 10px;
+}
+.login-title {
+  background-color: white;
+  margin: 0px;
+  padding: 20px;
+
+}
+form label {
+  padding: 8px;
+  margin: 8px;
+}
+form input {
+  margin: 8px;
+  padding: 8px;
+  width: 250px;
+}
+.show {
+  background-color: rgb(80, 82, 85);
+  color: white;border-radius: 30px;
+  padding: 10px;
+}
+
+.login a {
+  font-weight: bold;
+  color: black;
+}
+.login p {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+.register-page {
+  background-color: white;
+  margin: 0px;
+  padding: 10px;
+  height: 800px;
+  text-align: center;
+}
+.register-title {
+  background-color: white;
+  margin: 0px;
+  padding: 20px;
+}
+.register {
+  display: inline-block;
+  background-color:rgb(12, 138, 201);
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+}
+.register p {
+  width: 275px;
+}
+.notice {
+  background-color: white;
+  font-size: 1em;
+  font-weight: bold;
+  color: red;
+  text-align: center;
+  list-style: none;
+  margin: 0px;
+  padding-right: 20px;
+}
+
+/******media query******/
+@media only screen and (min-width: 710px) {
+  .detail_page {
+    display: inline-block;
+    text-align: left;
+  }
+  .detail_view img {
+    width: 450px;
+  }
+  .main_content {
+    justify-content: center;
+  }
+  .DMC {
+    justify-self: left;
+  }
+  .Welcome {
+    font-size: 3em;
+  }
+  .delorean_image {
+    max-width: 1200px;
+    height: auto;
+  }
+
+  /*******review*******/
+  .review {
+    height: auto;
+    max-width: 750px;
+  }
+
+  /*******upgrades*******/
+  .upgrades {
+    height: auto;
+    max-width: 750px;
+  }
+  form input {
+    width: 350px;
+  }
+  .register p {
+    width: 355px;
+  }
+
+}
+
+@media only screen and (min-width: 1010px) {
+  .detail_page {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: left;
+  }
+  .detail_view img {
+    width: 450px;
+    margin-left: 20px;
+  }
+  .main_content { 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: stretch;
+  }
+  .Welcome {
+    grid-column: 1/2;
+    grid-row: 1;
+    font-size: 3.5em;
+    padding: 15px;
+  }
+  .delorean_image {
+    max-width: 1600px;
+    height: auto;
+    grid-column: 1/2;
+    grid-row: 2;
+    padding: 20px;
+  }
+
+  /*******review*******/
+  .review {
+    height: auto;
+    max-width: 450px;
+    grid-column: 1;
+    grid-row: 3;
+    padding: 15px;
+  }
+
+  /*******upgrades*******/
+  .upgrades {
+    height: auto;
+    max-width: 450px;
+    grid-column: 2;
+    grid-row: 3;
+    padding: 15px;
+  }
+}
