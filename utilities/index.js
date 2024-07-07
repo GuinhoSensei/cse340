@@ -31,19 +31,16 @@ Util.getNav = async function () {
 
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
 
-module.exports = Util;
-
-
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
 Util.buildClassificationGrid = async function(data){
   let grid = '';
-  if(data.length > 0){
+  if(data && data.length > 0){
     grid = '<ul id="inv-display">';
     data.forEach(vehicle => { 
       grid += '<li>';
-      grid +=  `<a href="../../inv/detail/${vehicle.inv_id}" title="View ${vehicle.inv_make} ${vehicle.inv_model} details"><img src="${vehicle.inv_thumbnail}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors"></a>`;
+      grid +=  `<a href="../../inv/detail/${vehicle.inv_id}" title="View ${vehicle.inv_make} ${vehicle.inv_model} details"><img src="${vehicle.inv_thumbnail || '/path/to/default/image.png'}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors"></a>`;
       grid += '<div class="namePrice">';
       grid += '<hr>';
       grid += `<h2><a href="../../inv/detail/${vehicle.inv_id}" title="View ${vehicle.inv_make} ${vehicle.inv_model} details">${vehicle.inv_make} ${vehicle.inv_model}</a></h2>`;
@@ -58,14 +55,17 @@ Util.buildClassificationGrid = async function(data){
   return grid;
 };
 
-
 /* **************************************
 * Build the vehicle detail view HTML
 * ************************************ */
 Util.buildVehicleDetail = async function(data){
+  if (!data) {
+    return '<p class="notice">Vehicle not found.</p>';
+  }
+  
   let detail = `
     <div class="vehicle-detail">
-      <img src="${data.inv_image}" alt="Image of ${data.inv_make} ${data.inv_model}">
+      <img src="${data.inv_image || '/path/to/default/image.png'}" alt="Image of ${data.inv_make} ${data.inv_model}">
       <div class="vehicle-info">
         <h2>${data.inv_make} ${data.inv_model}</h2>
         <p><strong>Year:</strong> ${data.inv_year}</p>
@@ -78,5 +78,23 @@ Util.buildVehicleDetail = async function(data){
   `;
   return detail;
 };
+
+/* **************************************
+ * Build the classification list HTML
+ * ************************************ */
+Util.buildClassificationList = async function (classification_id = null) {
+  let data = await invModel.getClassifications()
+  let classificationList = '<select name="classification_id" id="classificationList" required>'
+  classificationList += "<option value=''>Choose a Classification</option>"
+  data.rows.forEach((row) => {
+    classificationList += `<option value="${row.classification_id}"`
+    if (classification_id != null && row.classification_id == classification_id) {
+      classificationList += " selected "
+    }
+    classificationList += `>${row.classification_name}</option>`
+  })
+  classificationList += "</select>"
+  return classificationList
+}
 
 module.exports = Util
