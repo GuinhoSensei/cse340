@@ -1,7 +1,4 @@
-<% if (title) { %>
-    <h1><%= title %></h1>
-    <% } else {
-      res.redirect('/')
-    } %>
+<h1 id="error-title"><%- title %></h1>
+<p id="error-msg"><%- message %></p>
 
-<%- #message %>
+<script src='/js/script.js'></script>

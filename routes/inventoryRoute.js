@@ -1,39 +1,28 @@
 // Needed Resources 
-const express = require("express");
-const router = new express.Router();
-const invController = require("../controllers/invController");
-const validate = require("../utilities/inventory-validation");
+const express = require("express")
+const utilities = require("../utilities")
+const router = new express.Router() 
+const invController = require("../controllers/invController")
 
-// Route to build inventory by classification view
-router.get("/type/:classificationId", invController.buildByClassificationId);
+const inventoryValidate = require("../utilities/inventory-validation")
 
-// Route to build inventory item detail view
-router.get("/detail/:invId", invController.buildByInvId);
+//Routes as below:
 
-// Route to display inventory management view
-router.get("/", invController.buildManagementView);
+router.get('/', utilities.handleErrors(invController.buildInvManagement));
+router.get('/add-classification', utilities.handleErrors(invController.buildAddClassification));
+router.post('/add-classification',
+ inventoryValidate.classificationRules(),
+ inventoryValidate.checkClassificationData,
+ utilities.handleErrors(invController.addClassification)
+)
+router.get('/add-inventory', utilities.handleErrors(invController.buildAddInventory));
+router.post('/add-inventory',
+ inventoryValidate.inventoryRules(),
+ inventoryValidate.checkInventoryData,
+ utilities.handleErrors(invController.addInventory)
+ )
 
-// Route to display add classification form
-router.get("/add-classification", invController.buildAddClassificationView);
-
-// Route to handle add classification form submission
-router.post("/add-classification", validate.addClassificationRules(), validate.checkClassificationData, invController.addClassification);
-
-// Route to display add inventory form
-router.get("/add-inventory", invController.buildAddInventoryView);
-
-// Route to handle add inventory form submission
-router.post("/add-inventory", validate.addInventoryRules(), validate.checkInventoryData, invController.addInventory);
-
-// Route to display delete classification form
-router.get("/delete-classification", invController.buildDeleteClassificationView);
-
-// Route to handle delete classification form submission
-router.post("/delete-classification", validate.deleteClassificationRules(), validate.checkDeleteClassificationData, invController.deleteClassification);
-
-// Route to trigger a 500 error
-router.get("/trigger-error", (req, res, next) => {
-    next(new Error("Intentional error triggered!"));
-  });
+ router.get('/type/:classificationId', utilities.handleErrors(invController.buildByClassificationId));
+ router.get('/detail/:inventoryId', utilities.handleErrors(invController.buildByInventoryId)); 
 
 module.exports = router;
