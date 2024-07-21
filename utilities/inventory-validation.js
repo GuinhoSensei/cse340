@@ -1,98 +1,220 @@
-const InventoryModel = require("../models/inventory-model")
 const utilities = require(".")
-  const { body, validationResult } = require("express-validator")
-  const validate = {}
-  validate.classificationRules = () => {
-    return [
-        body("classification_name")
-        .trim() 
-        .notEmpty().withMessage("Classification name cannot be empty.")
-        .matches(/^[a-zA-Z0-9]+$/).withMessage("Classification name must not contain special characters or spaces.")
+const { body, validationResult } = require("express-validator")
+const validate = {}
+
+
+// Make sure the classification name is all alphabetical characters
+validate.newClassificationRules = () => {
+    return [ body("classification_name")
+    .trim()
+    .escape()
+    .notEmpty()
+    .isLength({ min: 1})
+    .withMessage("Names must be alphabetical characters only.") // on error this message is sent
     ]
-  }
-  validate.checkClassificationData = async (req, res, next) => {
-    const classification_name = req.body.classification_name
+}
+
+// Check the classification name
+validate.checkClassificationName = async (req, res, next) => {
+    const { classification_name } = req.body
     let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
-      let nav = await utilities.getNav()
-      res.render("./inventory/add-classification", {
-        errors,
-        title: "Add Classification",
-        nav,
-        classification_name,
-      })
-      return
+        let nav = await utilities.getNav()
+        let links = utilities.getAccountLinks()
+        res.render("inventory/add-classification", {
+            errors,
+            title: "Add New Classification",
+            nav,
+            links,
+            classification_name
+        })
+        return
     }
     next()
-  }
+}
 
-  validate.inventoryRules = () => {
-    return [
-      // Make, Model, Color validation
-      body(['inv_make', 'inv_model', 'inv_color'])
+// Make sure the vehicle data follows the rules
+validate.newVehicleRules = () => {
+    return [ 
+        // Make is required and must be a string
+        body("inv_make")
         .trim()
-        .notEmpty().withMessage((value, { path }) => `${path.replace('inv_', '').replace('_', ' ')} cannot be empty.`)
-        .matches(/^[a-zA-Z0-9]+$/).withMessage((value, { path }) => `${path.replace('inv_', '').replace('_', ' ')} must not contain special characters or spaces.`),
+        .notEmpty()
+        .isLength({ min: 1})
+        .withMessage("Please enter a valid make"),
 
-      // Year validation
-      body('inv_year')
+        // Model is required and must be a string
+        body("inv_model")
         .trim()
-        .notEmpty().withMessage('Year cannot be empty.')
-        .isLength({ min: 4, max: 4 }).withMessage('Year must be exactly 4 digits.')
-        .isNumeric().withMessage('Year must be a number.')
-        .matches(/^\d{4}$/).withMessage('Year must be a 4-digit number.'),
+        .notEmpty()
+        .isLength({ min: 1})
+        .withMessage("Please enter a valid model"),
+        
+        // Image path is required and must be a string
+        body("inv_image")
+        .trim()
+        .notEmpty()
+        .isLength({ min: 1})
+        .withMessage("Please enter a valid image path"),
 
-      // Description validation
-      body('inv_description')
+        // Thumbnail path is required and must be a string
+        body("inv_thumbnail")
         .trim()
-        .notEmpty().withMessage('Description cannot be empty.'),
+        .notEmpty()
+        .isLength({ min: 1})
+        .withMessage("Please enter a valid thumbnail path"),
+        
+        // Price is required and must be a number
+        body("inv_price")
+        .trim()
+        .notEmpty()
+        .isFloat()
+        .withMessage("Please enter a valid price"),
+        
+        // Year is required and must only be four digits long
+        body("inv_year")
+        .trim()
+        .notEmpty()
+        .isInt()
+        .isLength({ max: 4})
+        .withMessage("Please enter a valid year"),
+        
+        // Miles is required and must be a number
+        body("inv_year")
+        .trim()
+        .notEmpty()
+        .isInt()
+        .withMessage("Please enter a valid mileage"),
 
-      // Image and Thumbnail validation
-      body(['inv_image', 'inv_thumbnail'])
+        // Color is required and must be a string
+        body("inv_color")
         .trim()
-        .notEmpty().withMessage("Image / thumbnail cannot be empty."),
+        .notEmpty()
+        .isLength({ min: 1})
+        .withMessage("Please enter a valid color"),
+    ]
+}
 
-      // Price validation
-      body('inv_price')
-        .trim()
-        .notEmpty().withMessage('Price cannot be empty.')
-        .isNumeric().withMessage('Price must be a number.')
-        .matches(/^\d+$/).withMessage('Price must not contain special characters or spaces.'),
+// Check the new vehicle data
+validate.checkNewVehicleData = async (req, res, next) => {
+    const { classification_id, 
+        inv_make, 
+        inv_model, 
+        inv_description, 
+        inv_image, 
+        inv_thumbnail, 
+        inv_price, 
+        inv_year, 
+        inv_miles, 
+        inv_color } = req.body
 
-      // Miles validation
-      body('inv_miles')
-        .trim()
-        .notEmpty().withMessage('Miles cannot be empty.')
-        .isNumeric().withMessage('Miles must be a number.')
-        .matches(/^\d+$/).withMessage('Miles must not contain special characters or spaces.'),
-    ];
-  };
-  validate.checkInventoryData = async (req, res, next) => {
-    const { inv_make } = req.body
     let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
-      let nav = await utilities.getNav()
-      let classificationList = await utilities.buildClassificationList()
-      res.render("./inventory/add-inventory", {
-        errors,
-        title: "Add Inventory",
-        nav,
-        classificationList,
-        inv_make,
-        inv_model,
-        inv_year,
-        inv_description,
-        inv_image,
-        inv_thumbnail,
-        inv_price,
-        inv_miles,
-        inv_color
-      })
-      return
+        let nav = await utilities.getNav()
+        let links = utilities.getAccountLinks()
+        let classList = await utilities.buildClassificationList()
+        res.render("inventory/add-inventory", {
+            errors,
+            title: "Add New Vehicle",
+            nav,
+            links,
+            classificationList: classList,
+            classification_id, 
+            inv_make, 
+            inv_model, 
+            inv_description, 
+            inv_image, 
+            inv_thumbnail, 
+            inv_price, 
+            inv_year, 
+            inv_miles, 
+            inv_color
+        })
+        return
     }
     next()
-  }
+}
 
-  module.exports = validate
+// Check the updated vehicle data
+validate.checkUpdateData = async (req, res, next) => {
+    const { classification_id, 
+        inv_make, 
+        inv_model, 
+        inv_description, 
+        inv_image, 
+        inv_thumbnail, 
+        inv_price, 
+        inv_year, 
+        inv_miles, 
+        inv_color,
+        inv_id } = req.body
+
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        let links = utilities.getAccountLinks()
+        let classList = await utilities.buildClassificationList()
+        res.render("inventory/edit-inventory", {
+            errors,
+            title: "Edit " + inv_make + " " + inv_model,
+            nav,
+            links,
+            classificationList: classList,
+            classification_id, 
+            inv_make, 
+            inv_model, 
+            inv_description, 
+            inv_image, 
+            inv_thumbnail, 
+            inv_price, 
+            inv_year, 
+            inv_miles, 
+            inv_color,
+            inv_id
+        })
+        return
+    }
+    next()
+}
+
+// Make sure the review_text is at least 10 characters long
+validate.newReviewRules = () => {
+    return [ body("review_text")
+    .trim()
+    .notEmpty()
+    .isLength({ min: 10})
+    .withMessage("Reviews must be at least 10 characters long.") // on error this message is sent
+    ]
+}
+
+// Check the review data
+validate.checkNewReviewData = async (req, res, next) => {
+    const { review_text } = req.body
+
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        const car_data = await invModel.getItemByInvId(inv_id)
+        const review_data = await invModel.getReviewsByInvId(inv_id)
+        const users_data = await invModel.getAccountDataByInvId(inv_id)
+        const content = await utilities.buildIndividualView(car_data, review_data, users_data)
+        let nav = await utilities.getNav()
+        let links = utilities.getAccountLinks()
+        const vehicle = `${car_data[0].inv_year} ${car_data[0].inv_model} ${car_data[0].inv_make}`
+        res.render("./inventory/detail", {
+            title: vehicle,
+            links,
+            nav,
+            content,
+            errors: null,
+            review_text,
+          })
+        return
+    }
+    next()
+}
+
+module.exports = validate
